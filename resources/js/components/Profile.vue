@@ -139,7 +139,7 @@
         created(){
             axios.get("api/profile")
             .then(({ data }) => {this.form.fill(data)})
-            
+
             Fire.$on('AfterCreate', () => {
                 axios.get("api/profile")
                 .then(({ data }) => {this.form.fill(data)})
@@ -155,6 +155,7 @@
             let reader  = new FileReader()
             if (file['size'] < 209715) {
                 reader.onloadend = (file) => {
+                    console.log(reader.result)
                     this.form.photo = reader.result
                 }
                 reader.readAsDataURL(file);

@@ -13,6 +13,7 @@ Vue.component(AlertError.name, AlertError)
 import Profile from './components/Profile'
 import Dashboard from './components/Dashboard'
 import Users from './components/Users'
+import Developer from './components/Developer'
 
 import moment from 'moment'
 
@@ -54,6 +55,7 @@ let routes = [
     { path: '/profile', component: Profile },
     { path: '/dashboard', component: Dashboard },
     { path: '/users', component: Users },
+    { path: '/developer', component: Developer },
 ]
 
 const router = new VueRouter({
@@ -71,6 +73,7 @@ Vue.filter('myDate', function(created){
     return moment(created).format('MMMM Do YYYY, h:mm:ss a')
 })
 
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

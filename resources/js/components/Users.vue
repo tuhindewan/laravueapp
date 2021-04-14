@@ -27,12 +27,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="user in users" :key="user.id">
+                    <tr v-for="user in users.data" :key="user.id">
                       <td>{{ user.id }}</td>
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
-                      <td>{{ user.created_at | myDate }}</td>
                       <td><span class="tag tag-success">{{ user.type | upText }}</span></td>
+                      <td>{{ user.created_at | myDate }}</td>
                       <td>
                           <a type="button" @click="editModal(user)">
                               <i class="fas fa-edit text-blue"></i>
@@ -47,6 +47,12 @@
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination :data="users" @pagination-change-page="getResults">
+                        <span slot="prev-nav">&lt; Previous</span>
+	                    <span slot="next-nav">Next &gt;</span>
+                  </pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -129,6 +135,12 @@
             }
         },
         methods:{
+            getResults(page = 1) {
+                axios.get('api/users?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
+		    },
             createUser(){
                 this.$Progress.start()
                 this.form.post('api/users ')
@@ -146,7 +158,7 @@
                 })
             },
             getAllUsers(){
-                axios.get('api/users').then( ( {data} ) => (this.users = data.data) )
+                axios.get('api/users').then( ( {data} ) => (this.users = data) )
             },
             deleteUser(id){
                 Swal.fire({
