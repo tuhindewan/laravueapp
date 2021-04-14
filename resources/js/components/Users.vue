@@ -214,8 +214,18 @@
         },
         created() {
             this.getAllUsers()
+
             Fire.$on('AfterCreate', () => {
                 this.getAllUsers()
+            })
+
+            Fire.$on('searching', () => {
+                let query  = this.$parent.search
+                axios.get('api/finduser?q=' + query)
+                .then((data) => {
+                    this.users = data.data
+                })
+                .catch()
             })
         }
     }
